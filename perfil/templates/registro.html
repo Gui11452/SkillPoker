@@ -1,0 +1,89 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" 
+    integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/fontawesome.min.css" integrity="sha512-cHxvm20nkjOUySu7jdwiUxgGy11vuVPE9YeK89geLMLMMEOcKFyS2i+8wo0FOwyQO/bL8Bvq1KMsqK4bbOsPnA==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/brands.min.css" integrity="sha512-L+sMmtHht2t5phORf0xXFdTC0rSlML1XcraLTrABli/0MMMylsJi3XA23ReVQkZ7jLkOEIMicWGItyK4CAt2Xw==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/solid.min.css" integrity="sha512-bdTSJB23zykBjGDvyuZUrLhHD0Rfre0jxTd0/jpTbV7sZL8DCth/88aHX0bq2RV8HK3zx5Qj6r2rRU/Otsjk+g==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href='{% static "css/loginregistro.css" %}'>
+    <link rel="icon" href='{% static "images/favicon_azul.webp" %}'>
+    <title> Registro </title>
+</head>
+<body>
+
+    <div class="container">
+        <div>
+        </div>
+        <form action="{% url 'registro' %}" method="POST" class="loginregistro">
+            {% csrf_token %}
+            <div>
+                <h1>
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    Registro
+                </h1>
+                <small>
+                    A senha precisa ter no mínimo 8 caracteres
+                </small>
+                <small>
+                    O usuário precisa ter no máximo 20 caracteres
+                </small>
+                {% include 'parciais/_messages.html' %}
+                <div>
+                    <label for="name">Nome:</label>
+                    <input type="text" id="name" value="{{request.POST.name}}" name="name">
+                    <small class="nome"></small>
+                </div>
+                <div>
+                    <label for="username">Usuário:</label>
+                    <input type="text" id="username" name="username" value="{{request.POST.username}}">
+                    <small class="usuario"></small>
+                </div>
+                <div>
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" placeholder="email@gmail.com" name="email" value="{{request.POST.email}}">
+                    <small class="email"></small>
+                </div>
+                <div>
+                    <label for="senha1">Senha:</label>
+                    <input type="password" id="senha1" name="senha1" placeholder="*********">
+                    <small class="senha1"></small>
+                </div>
+                <div>
+                    <label for="senha2">Repetir Senha:</label>
+                    <input type="password" id="senha2" name="senha2"placeholder="*********">
+                    <small class="senha2"></small>
+                </div>
+                <div class="g-recaptcha" data-sitekey="{{RECAPTCHA_FRONT}}"></div>
+                <input type="submit" value="Cadastrar-se" class="button-submit">
+                <span class="loader"></span>
+                <a href="{% url 'login' %}">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    Já tem uma conta? Faça login!
+                </a>
+            </div>
+            <div>
+                <p style="border-top-right-radius: 1rem; border-top-left-radius: 1rem;">
+                    Desenvolvido por 
+                    <a href="https://ggaprogramer.com.br">
+                        ggaprogramer.com.br
+                    </a>
+                </p>
+                <p style="border-bottom-right-radius: 1rem; border-bottom-left-radius: 1rem;">
+                    Copyright © 2023 SkillPoker. Todos os direitos reservados.
+                </p>
+            </div>
+        </form>
+    </div>
+    <script src="{% static 'js/registro.js' %}"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<div class="paginacao-contas">
+    {% if contas.has_previous %}
+        <a href="?page=1">&laquo;</a>
+        <a href="?page={{ contas.previous_page_number }}">&lsaquo;</a>
+    {% endif %}
+
+    {% for num in contas.paginator.page_range %}
+
+        {% if contas.number == num %}
+            <a href="?page={{ num }}" class="esta_paginacao">{{ num }}</a>
+        {% elif num > contas.number|add:'-3' and num < contas.number|add:'3' %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+
+    {% endfor %}
+
+    {% if contas.has_next %}
+        <a href="?page={{ contas.next_page_number }}">&rsaquo;</a>
+        <a href="?page={{ contas.paginator.num_pages }}">&raquo;</a>
+    {% endif %}
+</div>

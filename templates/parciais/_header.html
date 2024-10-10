@@ -1,0 +1,17 @@
+{% load static %}
+
+<header class="cabecalho">
+    <div>
+        <a href="{% url 'dashboard' %}">
+            <img src="{% static 'images/logo_branca.png' %}" alt="">
+        </a>
+        <nav>
+            <a href="{% url 'perfil' %}">
+                <img src="{% static 'images/icone_boneco.png' %}" alt="">
+            </a>
+            <a href="{% url 'logout' %}">
+                <img src="{% static 'images/logout.png' %}" alt="">
+            </a>
+        </nav>
+    </div>
+</header>

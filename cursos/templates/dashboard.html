@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block estilos %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+    <style>
+        .home>div{
+            background: url('{% static "images/poker3.jpg" %}') center top;
+            background-size: cover;
+        }
+    </style>
+{% endblock %}
+{% block titulo %}
+    Dashboard
+{% endblock %}
+
+{% block container %} 
+
+    <div class="home">
+        <div></div>
+    </div>
+
+    <div class="container">
+        <div>
+            <div class="curso">
+                <div class="catalogo">
+                    {% include 'parciais/_messages.html' %}
+                    {% if cursos %}
+                        {% for curso in cursos %}
+                            <div>
+                                <!-- <img src="images/cadeado.png" class="cadeado" alt=""> -->
+                                <a href="{% url 'modulos' curso.nome %}">
+                                    <div></div>
+                                    {% if curso.foto %}
+                                        <img src="{{curso.foto.url}}" class="modulo" alt="">
+                                    {% endif %}
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <h1>
+                            No momento, não há cursos disponíveis!
+                        </h1>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}{% endblock %}

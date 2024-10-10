@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" 
+    integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/fontawesome.min.css" integrity="sha512-cHxvm20nkjOUySu7jdwiUxgGy11vuVPE9YeK89geLMLMMEOcKFyS2i+8wo0FOwyQO/bL8Bvq1KMsqK4bbOsPnA==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/brands.min.css" integrity="sha512-L+sMmtHht2t5phORf0xXFdTC0rSlML1XcraLTrABli/0MMMylsJi3XA23ReVQkZ7jLkOEIMicWGItyK4CAt2Xw==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/solid.min.css" integrity="sha512-bdTSJB23zykBjGDvyuZUrLhHD0Rfre0jxTd0/jpTbV7sZL8DCth/88aHX0bq2RV8HK3zx5Qj6r2rRU/Otsjk+g==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href='{% static "css/loginregistro.css" %}'>
+    <link rel="icon" href='{% static "images/favicon_azul.webp" %}'>
+    <style>
+        .container>div{
+            background: url('{% static "images/poker1.jpg" %}') center;
+            background-size: cover;
+        }
+    </style>
+    <title> Confirmação de E-mail </title>
+</head>
+<body>
+
+    <div class="container">
+        <div>
+            <div>
+                <p style="border-top-right-radius: 1rem; border-top-left-radius: 1rem;">
+                    Desenvolvido por 
+                    <a href="https://ggaprogramer.com.br">
+                        ggaprogramer.com.br
+                    </a>
+                </p>
+                <p style="border-bottom-right-radius: 1rem; border-bottom-left-radius: 1rem;">
+                    Copyright © 2023 SkillPoker. Todos os direitos reservados.
+                </p>
+            </div>
+        </div>
+        <section class="mensagem">
+            <div>
+                <h1>
+                    <i class="fa-solid fa-lock"></i>
+                    Confirmação de E-mail
+                </h1>
+                {% include 'parciais/_messages.html' %}
+                <div class="info">
+                    Se você não recebeu o e-mail, atualize essa página para receber ele de novo. 
+                    Se você digitou o e-mail errado, acesse o seu perfil e troque o e-mail.
+                </div>
+                <a href="{% url 'perfil' %}">
+                    Acesse o seu perfil
+                </a>
+            </div>
+        </section>
+    </div>
+
+</body>
+</html>

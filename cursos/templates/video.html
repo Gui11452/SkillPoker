@@ -1,0 +1,399 @@
+{% load static %}
+{% load filters %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" 
+    integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/fontawesome.min.css" integrity="sha512-cHxvm20nkjOUySu7jdwiUxgGy11vuVPE9YeK89geLMLMMEOcKFyS2i+8wo0FOwyQO/bL8Bvq1KMsqK4bbOsPnA==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/brands.min.css" integrity="sha512-L+sMmtHht2t5phORf0xXFdTC0rSlML1XcraLTrABli/0MMMylsJi3XA23ReVQkZ7jLkOEIMicWGItyK4CAt2Xw==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/solid.min.css" integrity="sha512-bdTSJB23zykBjGDvyuZUrLhHD0Rfre0jxTd0/jpTbV7sZL8DCth/88aHX0bq2RV8HK3zx5Qj6r2rRU/Otsjk+g==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href='{% static "css/video.css" %}'>
+    <link rel="icon" href='{% static "images/favicon_azul.webp" %}'>
+    <title> {{video.nome|formata_slug_string}} </title>
+</head>
+<body>
+    
+    <header class="cabecalho">
+        <div>
+            <a href="{% url 'dashboard' %}">
+                <img src="{% static 'images/logo_branca.png' %}" alt="">
+            </a>
+            <nav>
+                <a href="{% url 'perfil' %}">
+                    <img src="{% static 'images/icone_boneco.png' %}" alt="">
+                </a>
+                <a href="{% url 'logout' %}">
+                    <img src="{% static 'images/logout.png' %}" alt="">
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div>
+            <div class="painel-video">
+                <h1>
+                    {{video.nome|formata_slug_string}}
+                </h1>
+                <div class="caminhos">
+                    <a href="{% url 'dashboard' %}">
+                        Cursos
+                    </a>
+                    <i class="fa-solid fa-chevron-right"></i>
+                    <a href="{% url 'modulos' video.modulo.curso.nome %}">
+                        {{video.modulo.curso.nome|formata_slug_string}}
+                    </a>
+                    <i class="fa-solid fa-chevron-right"></i>
+                    <a href="">
+                        {{video.modulo.nome|formata_slug_string}}
+                    </a>
+                </div>
+                {% if video.link %}
+                    <iframe src="{{video.link}}" 
+                    frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="video2698678971"></iframe>
+                {% else %}
+                    <img src="{% static 'images/em_breve.png' %}" alt="">
+                {% endif %}
+                <div class="aulas_adjacentes">
+                    <a href="{% url 'video_anterior_posterior' indice_video_anterior %}">
+                        Aula anterior
+                    </a>
+                    <a href="{% url 'video_anterior_posterior' indice_video_posterior %}">
+                        Aula posterior
+                    </a>
+                </div>
+                <span></span>
+                {% if video.arquivo %}
+                    <a href="{{video.arquivo.url}}" target="_blank" class="arquivo-video">
+                        <i class="fa-solid fa-file"></i>
+                        Clique para ver o material complementar do vídeo
+                    </a>
+                {% endif %}
+                <div class="metricas">
+                    {% if like_video %}
+                        <a href="{% url 'like' video.id %}" class="metrica_selecionada">
+                            <i class="fa-solid fa-thumbs-up"></i>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'like' video.id %}">
+                            <i class="fa-solid fa-thumbs-up"></i>
+                        </a>
+                    {% endif %}
+
+                    {% if deslike_video %}
+                        <a href="{% url 'deslike' video.id %}" class="metrica_selecionada-red">
+                            <i class="fa-solid fa-thumbs-down"></i>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'deslike' video.id %}">
+                            <i class="fa-solid fa-thumbs-down"></i>
+                        </a>
+                    {% endif %}
+
+                    {% if marcar_visto %}
+                        <a href="{% url 'marcar_visto' video.id %}" class="metrica_selecionada">
+                            Marcar como visto
+                            <i class="fa-solid fa-check"></i>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'marcar_visto' video.id %}">
+                            Marcar como visto
+                            <i class="fa-solid fa-check"></i>
+                        </a>
+                    {% endif %}
+                </div>
+                {% if video.descricao %}
+                    <p style="margin: 1rem 0;">
+                        {{video.descricao}}
+                    </p>
+                {% endif %}
+                <span></span>
+                <div class="aba-comunidade">
+                    <p class="selecionado">
+                        Comentários
+                    </p>
+                    <p>
+                        Dúvidas
+                    </p>
+                </div>
+                <div class="comentarios">
+                    {% include 'parciais/_messages.html' %}
+                    <form action="{% url 'enviar_comentario' video.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="text" name="comentario" placeholder="Deixe o seu comentário..." required>
+                        <input type="submit" value="Enviar">
+                    </form>
+                    {% for comentario in comentarios %}
+                        <div class="comentario">
+                            <div>
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div>
+                                <p>
+                                    <strong>
+                                        {{comentario.usuario.username}}: 
+                                    </strong>
+                                    {{comentario.texto}}
+                                </p>
+                                <small>
+                                    {{comentario.data|naturalday|title}}	
+                                </small>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <h3>
+                            Não há comentários nesse vídeo
+                        </h3>
+                    {% endfor %}
+                </div>
+                <div class="duvidas">
+                    {% include 'parciais/_messages.html' %}
+                    <form action="{% url 'enviar_duvida' video.id %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="text" name="duvida" placeholder="Faça a sua pergunta..." required>
+                        <input type="file" name="duvida_imagem">
+                        <input type="submit" value="Enviar">
+                    </form>
+                    {% for duvida, resposta in duvidas_respostas %}
+                        {% if duvida %}
+                            <div class="duvida">
+                                <div>
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <div>
+                                    <p>
+                                        <strong>
+                                            {{duvida.usuario.username}}: 
+                                        </strong>
+                                        {{duvida.texto}}
+                                    </p>
+                                    {% if duvida.arquivo %}
+                                        <a href="{{duvida.arquivo.url}}" target="_blank">
+                                            <i class="fa-solid fa-file"></i>
+                                            Ver arquivo em anexo
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if resposta %}
+                            <div class="resposta">
+                                <div>
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <div>
+                                    <p>
+                                        <strong>
+                                            Suporte: 
+                                        </strong>
+                                        {{resposta.texto}}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% empty %}
+                        <h3>
+                            Não há dúvidas nesse vídeo
+                        </h3>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <div class="menu">
+                <div class="progresso-curso">
+                    <div class="circle-progress">
+                        <svg>
+                            <circle cx="20" cy="20" r="20"></circle>
+                            <circle cx="20" cy="20" r="20" porcentagem="{{porcentagem}}"></circle>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>
+                            Meu Progresso - {{porcentagem}}%
+                        </h2>
+                        <p>
+                            {{qtv_videos_vistos}} de {{qtd_videos|formata_aulas}}
+                        </p>
+                    </div>
+                </div>
+
+                {% for modulo, verificacao, lista_videos, porcentagem_videos_vistos_modulos in lista_zip %}
+                    {% if verificacao %}
+                        <div class="modulo">
+                            <div>
+                                <div class="circle-progress">
+                                    <svg>
+                                        <circle cx="20" cy="20" r="20"></circle>
+                                        <circle cx="20" cy="20" r="20" porcentagem="{{porcentagem_videos_vistos_modulos}}"></circle>
+                                    </svg>
+                                </div>
+                                <div class="modulo-metricas">
+                                    <h2>
+                                        {{modulo.nome|formata_slug_string}} - {{porcentagem_videos_vistos_modulos}}%
+                                    </h2>
+                                    <p>
+                                        {{lista_videos|length_aulas}}
+                                    </p>
+                                </div>
+                            </div>
+                            {% if modulo == modulo_ %}
+                                <div class="aulas desocultar">
+                                    {% if lista_videos %}
+                                        {% for video_ in lista_videos %}
+                                            {% if video == video_ %}
+                                                <a href="{% url 'video' video_.nome %}" class="video_selecionado">
+
+                                                    {% for keyy, valuee in dicionario_liberacao_videos.items %}
+
+                                                        {% if video_.nome == keyy and valuee %}
+                                                            
+                                                            {% for key, value in dicionario.items %}
+                                                                {% if video_.nome == key and value %}
+                                                                    <i class="fa-solid fa-check"></i>
+                                                                {% endif %}
+                                                                {% if video_.nome == key and not value %}
+                                                                    <i class="fa-solid fa-xmark"></i>
+                                                                {% endif %}
+                                                            {% endfor %}
+
+                                                        {% endif %}
+                                                        {% if video_.nome == keyy and not valuee %}
+                                                            <i class="fa-solid fa-lock"></i>
+                                                        {% endif %}
+
+                                                    {% endfor %}
+
+                                                    <p>
+                                                        {{video_.ordem|formata_numero_video}} {{video_.nome|formata_slug_string}}
+                                                    </p>
+                                                </a>
+                                            {% else %}
+                                                <a href="{% url 'video' video_.nome %}">
+
+                                                    {% for keyy, valuee in dicionario_liberacao_videos.items %}
+
+                                                        {% if video_.nome == keyy and valuee %}
+                                                            
+                                                            {% for key, value in dicionario.items %}
+                                                                {% if video_.nome == key and value %}
+                                                                    <i class="fa-solid fa-check"></i>
+                                                                {% endif %}
+                                                                {% if video_.nome == key and not value %}
+                                                                    <i class="fa-solid fa-xmark"></i>
+                                                                {% endif %}
+                                                            {% endfor %}
+
+                                                        {% endif %}
+                                                        {% if video_.nome == keyy and not valuee %}
+                                                            <i class="fa-solid fa-lock"></i>
+                                                        {% endif %}
+
+                                                    {% endfor %}
+
+                                                    <p>
+                                                        {{video_.ordem|formata_numero_video}} {{video_.nome|formata_slug_string}}
+                                                    </p>
+                                                </a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                    <!-- <a href="">
+                                        <i class="fa-solid fa-xmark"></i>
+                                        <p>
+                                            02. Aula 2
+                                        </p>
+                                    </a> -->
+                                </div>
+                            {% else %}
+                                <div class="aulas">
+                                    {% if lista_videos %}
+                                        {% for video_ in lista_videos %}
+                                            <a href="{% url 'video' video_.nome %}">
+
+                                                {% for keyy, valuee in dicionario_liberacao_videos.items %}
+
+                                                    {% if video_.nome == keyy and valuee %}
+                                                        
+                                                        {% for key, value in dicionario.items %}
+                                                            {% if video_.nome == key and value %}
+                                                                <i class="fa-solid fa-check"></i>
+                                                            {% endif %}
+                                                            {% if video_.nome == key and not value %}
+                                                                <i class="fa-solid fa-xmark"></i>
+                                                            {% endif %}
+                                                        {% endfor %}
+
+                                                    {% endif %}
+                                                    {% if video_.nome == keyy and not valuee %}
+                                                        <i class="fa-solid fa-lock"></i>
+                                                    {% endif %}
+
+                                                {% endfor %}
+
+                                                <p>
+                                                    {{video_.ordem|formata_numero_video}} {{video_.nome|formata_slug_string}}
+                                                </p>
+                                            </a>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <!-- <a href="">
+                                        <i class="fa-solid fa-xmark"></i>
+                                        <p>
+                                            02. Aula 2
+                                        </p>
+                                    </a> -->
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="modulo">
+                            <div>
+                                <div class="circle-progress">
+                                    <svg>
+                                        <circle cx="20" cy="20" r="20"></circle>
+                                        <circle cx="20" cy="20" r="20" porcentagem="0"></circle>
+                                    </svg>
+                                </div>
+                                <div class="modulo-metricas">
+                                    <h2>
+                                        {{modulo.nome|formata_slug_string}}
+                                    </h2>
+                                    <p>
+                                        {{lista_videos|length_aulas}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="aulas">
+                                {% if lista_videos %}
+                                    {% for video_ in lista_videos %}
+                                        <a>
+                                            <i class="fa-solid fa-lock"></i>
+                                            <p>
+                                                {{video_.ordem|formata_numero_video}} {{video_.nome|formata_slug_string}}
+                                            </p>
+                                        </a>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% include 'parciais/_footer.html' %}
+
+    <script src="{% static 'js/video.js' %}"></script>
+    <script src="https://player.vimeo.com/api/player.js"></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load static %}
+
+{% block estilos %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/modulos.css' %}">
+    <style>
+        .home>div{
+            background: url('{% static "images/poker3.jpg" %}') center top;
+            background-size: cover;
+        }
+    </style>
+{% endblock %}
+{% block titulo %}
+    Dashboard
+{% endblock %}
+
+{% block container %} 
+
+    <div class="container">
+        <div>
+            <div class="curso">
+                <h1>
+                    {{curso.nome|formata_slug_string}}
+                </h1>
+                <div class="catalogo">
+                    {% include 'parciais/_messages.html' %}
+                    {% if modulos %}
+                        {% for modulo, verificacao in lista_zip %}
+                            {% if verificacao %}
+                                <div>
+                                    <a href="{% url 'redirecionar_video' modulo.nome %}">
+                                        <div></div>
+                                        {% if modulo.foto %}
+                                            <img src="{{modulo.foto.url}}" class="modulo" alt="">
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div>
+                                    <img src="{% static 'images/cadeado.png' %}" class="cadeado" alt="">
+                                    <a class="bloqueado">
+                                        <div class="bloqueado"></div>
+                                        {% if modulo.foto %}
+                                            <img src="{{modulo.foto.url}}" class="modulo" alt="">
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <h2>
+                            No momento, esse curso não possui módulos. Aguarde!
+                        </h2>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="home">
+        <div></div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.addEventListener('click', e => {
+            const el = e.target;
+            if(el.classList.contains('bloqueado')){
+                e.preventDefault();
+            }
+        });
+    </script>
+{% endblock %}

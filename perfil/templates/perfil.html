@@ -1,0 +1,86 @@
+{% load static %}
+{% load filters %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" 
+    integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/fontawesome.min.css" integrity="sha512-cHxvm20nkjOUySu7jdwiUxgGy11vuVPE9YeK89geLMLMMEOcKFyS2i+8wo0FOwyQO/bL8Bvq1KMsqK4bbOsPnA==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/brands.min.css" integrity="sha512-L+sMmtHht2t5phORf0xXFdTC0rSlML1XcraLTrABli/0MMMylsJi3XA23ReVQkZ7jLkOEIMicWGItyK4CAt2Xw==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/solid.min.css" integrity="sha512-bdTSJB23zykBjGDvyuZUrLhHD0Rfre0jxTd0/jpTbV7sZL8DCth/88aHX0bq2RV8HK3zx5Qj6r2rRU/Otsjk+g==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href='{% static "css/perfil.css" %}'>
+    <link rel="icon" href='{% static "images/favicon_azul.webp" %}'>
+    <title> Perfil </title>
+</head>
+<body>
+    
+    <header class="cabecalho">
+        <div>
+            <a href="{% url 'dashboard' %}">
+                <img src="{% static 'images/logo_branca.png' %}" alt="">
+            </a>
+            <nav>
+                <a href="{% url 'logout' %}">
+                    <img src="{% static 'images/logout.png' %}" alt="">
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div>
+            <div class="perfil">
+                <h1>
+                    <i class="fa-solid fa-user"></i>
+                    Bem vindo, {{perfil.usuario}}
+                </h1>
+                {% include 'parciais/_messages.html' %}
+                <p>
+                    <strong> Usuário: </strong> {{perfil.usuario}}
+                </p>
+                <p>
+                    <strong> Nome: </strong> {{perfil.nome}}
+                </p>
+                <p>
+                    <strong> E-mail: </strong> {{perfil.email}}
+                </p>
+                {% if perfil.verificacao_email %}
+                    <p>
+                        <strong> E-mail Confirmado: </strong>
+                        <img src="{% static 'images/check.png' %}" alt="">
+                    </p>
+                    <a href="{% url 'dashboard' %}">
+                        Acessar os Cursos
+                    </a>
+                {% else %}
+                    <p>
+                        <strong> E-mail Confirmado: </strong>
+                        <img src="{% static 'images/block.png' %}" alt="">
+                    </p>
+                    <a href="{% url 'verificacao_email' perfil.usuario.username %}">
+                        Confirmar o seu E-mail
+                    </a>
+                {% endif %}
+                <a href="{% url 'alterar_dados' %}">
+                    Alterar Dados
+                </a>
+                <a href="{% url 'logout' %}">
+                    Sair
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {% include 'parciais/_footer.html' %}
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</body>
+</html>
